@@ -15,3 +15,6 @@ Route::get('/books/create', [BookController::class, 'create'])->name('books.crea
 
 // Rotta per salvare i dati nel database
 Route::post('/books/store', [BookController::class, 'store'])->name('books.store');
+
+// Rotta per eliminare un libro
+Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
