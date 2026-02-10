@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBookRequest;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\BookCreatedMail;
+use Symfony\Component\HttpKernel\HttpCache\Store;
 
 class BookController extends Controller
 {
@@ -31,28 +33,33 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBookRequest $request)
     {
         // dd($request->all());
+        // recupero dati validati
+        $data = $request->validate();
 
-        $request->validate([
-            'title' => 'required|min:3',
-            'pages' => 'required|numeric',
-            'year' => 'required|numeric',
-            'author' => 'required|min:3',
-            'description' => 'required|min:3',
-        ]);
+        if ($request->hasFile('image')) {
+            $extension = $request->file('image')->extension();
+            $filename = 'cover_' . time() . '.' . $extension;
+
+            // salvataggio nel public dentro la cartella images
+            $path = $request->file('image')->storeAs('images', $filename, 'public');
+
+            // salvataggio nel database
+            $data['image'] = $path;
+        }
 
         // creazione del libro
         $book = Book::create($request->all());
 
         // invio Email        
         Mail::to('emaill@email.com')->send(new BookCreatedMail($book));
-        
+
 
 
         //redirect con messaggio di successo
-        return redirect()->route('books.index')->with('success', 'Libro creato con successo'); 
+        return redirect()->route('books.index')->with('success', 'Libro creato con successo');
     }
 
     /**
