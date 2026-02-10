@@ -37,7 +37,7 @@ class BookController extends Controller
     {
         // dd($request->all());
         // recupero dati validati
-        $data = $request->validate();
+        $data = $request->validated();
 
         if ($request->hasFile('image')) {
             $extension = $request->file('image')->extension();
@@ -51,7 +51,7 @@ class BookController extends Controller
         }
 
         // creazione del libro
-        $book = Book::create($request->all());
+        $book = Book::create($data);
 
         // invio Email        
         Mail::to('emaill@email.com')->send(new BookCreatedMail($book));

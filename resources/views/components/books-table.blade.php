@@ -45,7 +45,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center py-5 text-muted">
+                                <td colspan="7" class="text-center py-5 text-muted">
                                     <i class="bi bi-book mb-2 d-block" style="font-size: 2rem;"></i>
                                     Nessun libro disponibile nella tua libreria.
                                 </td>
