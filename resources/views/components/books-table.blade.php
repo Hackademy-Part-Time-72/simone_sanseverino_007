@@ -1,11 +1,12 @@
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-10 col-lg-8"> 
+        <div class="col-md-10 col-lg-8">
             <div class="table-responsive shadow rounded">
                 <table class="table table-hover mb-0">
                     <thead class="table-dark">
                         <tr>
                             <th scope="col" class="py-3">#</th>
+                            <th scope="col" class="py-3">Copertina</th>
                             <th scope="col" class="py-3">Titolo</th>
                             <th scope="col" class="py-3">Autore</th>
                             <th scope="col" class="py-3 text-center">Pagine</th>
@@ -18,17 +19,28 @@
                         @forelse ($books as $book)
                             <tr>
                                 <th scope="row">{{ $book->id }}</th>
+                                <th>
+                                    @if ($book->image)
+                                        <img src="{{ Storage::url($book->image) }}" alt="{{ $book->title }}"
+                                            style="width : 50px; height : 75px; object-fit : cover;"
+                                            class="rounded shadow-sm">
+                                    @else
+                                        <img src="https://via.placeholder.com/50" alt="Immagine non disponibile"
+                                            class="rounded shadow-sm">
+                                    @endif
+
                                 <td class="fw-bold text-secondary">{{ $book->title }}</td>
                                 <td>{{ $book->author }}</td>
                                 <td class="text-center">{{ $book->pages }}</td>
                                 <td> {{ $book->year }}</td>
-                                <td class="text-center">    
-                                <form action="{{ route('books.destroy','book') }}" method="POST" onsubmit="return confirm('Vuoi davvero eliminare questo libro?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">Elimina
-                                    </button>
-                                </form>
+                                <td class="text-center">
+                                    <form action="{{ route('books.destroy', 'book') }}" method="POST"
+                                        onsubmit="return confirm('Vuoi davvero eliminare questo libro?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">Elimina
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @empty
