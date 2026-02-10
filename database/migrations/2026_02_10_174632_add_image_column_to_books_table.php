@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('books', function (Blueprint $table) {
             // Aggiungo la colonna dopo l'id
-            $table->string('image')->after('id');
+            $table->string('image')->nullable()->after('id');
         });
     }
 

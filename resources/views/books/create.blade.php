@@ -14,8 +14,16 @@
                 </div>
             @endif
 
-            <form action="{{ route('books.store') }}" method="POST" class="shadow p-4 rounded bg-light">
+
+
+            <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data"
+                class="shadow p-4 rounded bg-light">
                 @csrf {{-- Fondamentale per la sicurezza CSRF --}}
+
+                <div class="mb-3">
+                    <label class="form-label">Copertina Libro</label>
+                    <input type="file" name="image" class="form-control">
+                </div>
 
                 <div class="mb-3">
                     <label class="form-label">Titolo</label>
@@ -34,7 +42,7 @@
 
                 <div class="mb-3">
                     <label class="form-label">Anno</label>
-                    <input type="number" name="year" class="form-control" value="{{ old('year')}}">
+                    <input type="number" name="year" class="form-control" value="{{ old('year') }}">
                 </div>
 
                 <div class="mb-3">
